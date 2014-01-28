@@ -1,0 +1,235 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>KEEMI Documentation</title>
+    </head>
+    <body>
+        <h2>The KEEMI file format (Version 1.0)</h2>
+        <h3>General</h3>
+        <p>The KEEMI file format is an XML(Extensible Markup Language) compliant format to structure question driven learning / test documents. The format is similar to the export format used by the Learn Management System&nbsp;<a
+                href="http://moodle.org" target="_blank"
+                >Moodle</a>. In contrast to the format used by Moodle, the KEEMI format supports additional information like explanations and resources. A good introduction to XML can be found <a
+                href="http://www.w3schools.com/xml/">here</a>.</p>
+        <h3>Overall structure of a KEEMI document</h3>
+        <p><a name="keemiXmlCatalog"></a>The following sample shows a complete KEEMI document</p>
+        <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalog&gt;
+  &lt;info format="1.0"&gt;
+    &lt;title&gt;Title of the question catalog&lt;/title&gt;
+    &lt;cover&gt;
+      &lt;media type="image" ref="Cover.png"/&gt;
+    &lt;/cover&gt;
+    &lt;author&gt;
+      &lt;name&gt;the name of the author&lt;/name&gt;
+    &lt;/author&gt;
+    &lt;publisher&gt;
+      &lt;name&gt;the name of the publisher&lt;/name&gt;
+    &lt;/publisher&gt;
+    &lt;description&gt;A short description of the catalog ...&lt;/description&gt;
+    &lt;language&gt;english&lt;/language&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+  &lt;/info&gt;
+  &lt;questionList&gt;
+    &lt;question name="question1" type="singleChoice"&gt;
+      &lt;text&gt;Thats the question ...?&lt;/text&gt;
+      &lt;answer&gt;
+	&lt;answerItem correct="yes"&gt;
+	  &lt;text&gt;Answer 1&lt;/text&gt;
+	&lt;/answerItem&gt;
+	&lt;answerItem correct="no"&gt;
+	  &lt;text&gt;Answer 2&lt;/text&gt;
+	&lt;/answerItem&gt;
+      &lt;/answer&gt;
+    &lt;/question&gt;
+  &lt;/questionList&gt;
+&lt;/catalog&gt;
+</pre>
+        <h3>The document element: catalog</h3>
+        <p>The document or root element <code>&lt;catalog&gt;</code> must contain at least the child elements&nbsp;<code>&lt;info&gt;</code> and <code>&lt;questionList&gt;</code> . The following abstract shows all posssible child elements of the document element <code>&lt;catalog&gt;</code>.</p>
+        <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalog&gt;
+  &lt;info format="1.0"&gt;...&lt;/info&gt;
+  &lt;questionList&gt;...&lt;/questionList&gt;
+  &lt;explanationList&gt;...&lt;/explanationList&gt;
+  &lt;topicList&gt;...&lt;/topicList&gt;
+  &lt;resourceList&gt;...&lt;/resourceList&gt;
+  &lt;mediaList&gt;...&lt;/mediaList&gt;
+&lt;/catalog&gt;</pre>
+        <h3>The element: info</h3>
+        <p>The <code>&lt;info&gt;</code> element structures the general information about a KEEMI question document. Required child elements are:<code> &lt;title&gt;, &lt;cover&gt;</code>,<code> &lt;author&gt;</code>,<code> &lt;publisher&gt;,</code>&nbsp;and the version of the catalog specified within the &nbsp;<code>&lt;version&gt;</code> element. The version of a catalog must be a number following the schema <em>major-number<strong>.</strong>minor-number</em> . All other possible child elements of the <code>&lt;info&gt;</code> element are optional. The attribute <code>format</code>&nbsp;is required and specifies the version of the KEEMI file format. The following abstract shows all possible child elements of the element <code>&lt;info&gt;</code> . The content of the element <code>&lt;language&gt;</code>&nbsp;is a textual term of the language. The optional attribute <code>code</code> of <code>&lt;language&gt;</code> must be a&nbsp;ISO 639-1 compliant two letter code of the language the catalog is written in.</p>
+        <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalog&gt;
+  &lt;info format="1.0"&gt;
+    &lt;title&gt;The title of the catalog ...&lt;/title&gt;
+    &lt;cover&gt;
+      &lt;media type="image" ref="Cover.png"/&gt;
+    &lt;/cover&gt;
+    &lt;author&gt;
+      &lt;name&gt;the name of the author&lt;/name&gt;
+      &lt;email&gt;my.own@email.com&lt;/email&gt;
+    &lt;/author&gt;
+    &lt;publisher&gt;
+      &lt;name&gt;the name of the publisher&lt;/name&gt;
+      &lt;link&gt;www.theWebsiteOfThePublisher.com&lt;/link&gt;
+      &lt;email&gt;my.own@email.com&lt;/email&gt;
+    &lt;/publisher&gt;
+    &lt;description&gt;The description of the catalog ...&lt;/description&gt;
+    &lt;language&gt;english&lt;/language&gt;
+    &lt;topic&gt;History&lt;/topic&gt;
+    &lt;download&gt;http://website.com/keemi/catalogs/theKeemiCatalogFile.zip&lt;/download&gt;
+    &lt;about&gt;
+      &lt;section&gt;
+        &lt;title&gt;Copyright&lt;/title&gt;
+        &lt;text&gt;Image 1, Source:...&lt;/text&gt;
+        &lt;text&gt;Image 2, Source: ...&lt;/text&gt;
+      &lt;/section&gt;
+    &lt;/about&gt;
+    &lt;version&gt;2.0&lt;/version&gt;
+  &lt;/info&gt;
+  ...
+&lt;/catalog&gt;
+</pre>
+        <p>The element <code>&lt;name&gt;</code> is a required element for <code>&lt;author&gt;</code> and<code> &lt;publisher&gt;</code> . If a catalog has multiple authors<code> &lt;name&gt;</code> contains a comma separated list of authors. <strong>The content of<code> &lt;title&gt;</code> and the<code> &lt;name&gt;</code> of a <code>&lt;publisher&gt;</code>&nbsp;identify a KEEMI document (catalog)&nbsp;uniquely</strong>.&nbsp;A<code> &lt;section&gt;</code> presents text and media-data within a KEEMI document. Child elements of <code>&lt;section&gt;</code> are <code>&lt;title&gt;</code>, <code>&lt;text&gt;</code> and<code> &lt;mediaList&gt;</code>, with<code> &lt;text&gt;</code> as an required element. The elements <code>&lt;mediaList&gt;</code> and <code>&lt;text&gt;</code> can occur multiple times. The element<code> &lt;about&gt;</code> can contain more than one sections.</p>
+        <h3>The element: questionList</h3>
+        <p>Within the <code>&lt;questionList&gt;</code> element are any number of <code>&lt;question&gt;</code> elements. At least one element <code>&lt;question&gt;</code> is required for a<code> &lt;questionList&gt;</code> . The element <code>&lt;question&gt;
+        </code>must contain the attribute <code>name</code> which specifies a unique name of the question within the whole document. <strong>Two <code>&lt;question&gt;
+        </code>elements with the same name are not allowed</strong>. The value for the attribute <code>name</code> can contain letters and numbers but no white spaces. Another required attribute is <code>type</code> . This attribute specifies the type of the question. The KEEMI format in version 1.0 specifies the following types of questions: <em>multipleChoice</em>, <em>singleChoice</em>, <em>flashcard</em>, <em>wordResponse</em> and <em>order</em>. Furthermore there exist two special types named <em>aggravatedSingleChoice</em> and <em>aggravatedMultipleChoice</em>. These two types are special types of <em>multipleChoice</em> and <em>singleChoice</em> where Answer-Items are presented one after another. Another optional attribute of <code>&lt;question&gt;</code> is <code>topic</code>. This attribute attaches a question to a topic, specified by the author within the element <code>&lt;topicList&gt;</code> (<a
+        href="#topicList">see element &lt;topicList&gt;</a>).</p>
+        <pre>...
+&lt;questionList&gt;
+    &lt;question name="question1" type="singleChoice" topic="nameOfTopic"&gt;
+      &lt;text&gt;The question is ...?&lt;/text&gt;&lt;!-- required element text -->
+      &lt;answer&gt;
+	&lt;answerItem correct="yes"&gt;
+	  &lt;text&gt;Answer 1&lt;/text&gt;
+	&lt;/answerItem&gt;
+	&lt;answerItem correct="no"&gt;
+	  &lt;text&gt;Answer 2&lt;/text&gt;
+	&lt;/answerItem&gt;
+         ...
+      &lt;/answer&gt;
+    &lt;/question&gt;
+    &lt;question name="question2" type="multipleChoice"&gt;
+      &lt;text&gt;The question is ...?&lt;/text&gt;
+      &lt;answer shuffleAnswers="yes"&gt;
+	&lt;answerItem correct="yes"&gt;
+	  &lt;text&gt;Answer 1&lt;/text&gt;
+	&lt;/answerItem&gt;
+	&lt;answerItem correct="no"&gt;
+	  &lt;text&gt;Answer 2&lt;/text&gt;
+	&lt;/answerItem&gt;
+	&lt;answerItem correct="yes"&gt;
+	  &lt;text&gt;Answer 3&lt;/text&gt;
+	&lt;/answerItem&gt;
+      &lt;/answer&gt;
+    &lt;/question&gt;
+    ...
+&lt;/questionList&gt;
+...
+</pre>
+        <p>The question itself is&nbsp;declared with the child element<code> &lt;text&gt;</code> of the element <code>&lt;question&gt;
+        </code>. The child elements <code>&lt;text&gt;</code> and <code>&lt;answer&gt;</code> are required for a question. An answer can be attached to one explanation. This relationship is specified with the attribute <code>explanation</code>. The value of <code>explanation</code> is a name of an explanation further specified within the element<code>&lt;explanationList&gt;</code>&nbsp;(<a
+        href="#explanationList"
+          >see element explanationList</a>) of the KEEMI document. The author of a KEEMI document can specify if the possible answers of a question should be shuffled. This is done with the attribute <code>shuffleAnswers</code>. Another optional attribute of <code>&lt;answer&gt;</code> is style. This attribute can get the values <code>row</code> and <code>column</code> (<code>row </code>is the default) . The attribute <code>numberOfVisibleCorrectItems</code> defines how many correct Answer-Items are shown if the question is presented. The possible answers are specified with the element <code>&lt;answerItem&gt;</code> which can have a child element<code>&nbsp;&lt;text&gt;</code>&nbsp;or<code> &lt;media&gt;
+        </code>or boh of them.&nbsp;The required &nbsp;attribute <code>correct</code> defines the&nbsp;correctness of a given <code>&lt;answerItem&gt;</code>. Another attribute of element <code>&lt;answerItem&gt;</code> is <code>equalGroupName</code>. This attribute defines that the elements have the same (literally or logically) content. An answer can contain one list of media items e.g. images which are specified within the optional child element <code>&lt;mediaList&gt;</code> (see <a
+        href="#mediaList"
+          >element mediaList</a>). Another optional child element of <code>&lt;question&gt;</code> is the element<code> &lt;resourceList&gt;</code> (see <a
+        href="#resourceList">element &lt;resourceList&gt;</a>).</p>
+        <pre>...
+&lt;question name="question1" type="singleChoice"&gt;
+      &lt;title&gt;The title of a question is optional&lt;/title&gt;
+      &lt;text&gt;The question is ...?&lt;/text&gt;
+      &lt;answer shuffleAnswers="NO" style="column"&gt;
+	&lt;mediaList&gt;...&lt;/mediaList&gt;
+	&lt;answerItem correct="yes"&gt;
+	  &lt;text&gt;Answer 1&lt;/text&gt;
+	  &lt;media ref="file.png" type="image"/&gt;
+	&lt;/answerItem&gt;
+	&lt;answerItem correct="no"&gt;
+	  &lt;text&gt;Answer 2&lt;/text&gt;
+	&lt;/answerItem&gt;
+      &lt;/answer&gt;
+&nbsp; &nbsp; &lt;resourceList&gt;...&lt;/resourceList&gt;
+&lt;/question&gt;
+...</pre>
+      <p>Questions can be grouped. To group a set of questions, each question must have the same value for the attribute <code>groupName</code>. <strong>Grouped questions must appear one after another in the document!</strong> The author of a question can compose an introduction. An introduction is specified with the child element <code>&lt;introduction&gt;</code>. The element <code>&lt;introduction&gt;</code> can contain one or more <code>&lt;section&gt;</code> elements.</p>
+      <h3><a name="section"></a>The element: section</h3>
+      <p>The element <code>&lt;section&gt;</code> must contain at least one child element <code>&lt;text&gt;</code>. All other elements, shown below, are optional.</p>
+      <pre>...
+&lt;section&gt;
+   &lt;title&gt;The title of the section&lt;/title&gt;
+   &lt;text&gt;Paragraph 1&lt;/text&gt;
+   &lt;mediaList&gt;...&lt;/mediaList&gt;
+   &lt;text&gt;Paragraph 2&lt;/text&gt;
+   &lt;mediaList&gt;...&lt;/mediaList&gt;
+   ...
+&lt;/section&gt;
+...</pre>  
+      <h3><a name="explanationList"></a>The element: explanationList</h3>
+        <p>A KEEMI document can (should) contain short explanations to the answers of the questions. An explanation is specified by the element <code>&lt;explanation&gt;</code> which must have an attribute <code>name</code>. The <code>name</code> of an explanation must, like the name of a question, be unique within the whole KEEMI document.&nbsp;Another optional attribute of&nbsp;<code>&lt;explanation&gt;</code>&nbsp;is&nbsp;<code>topic</code> .This attribute attaches an&nbsp; explanation &nbsp;to a topic, specified by the author within the element&nbsp;
+                <code>&lt;topicList&gt;</code>&nbsp;(<a href="#topicList"
+                >see element &lt;topicList&gt;</a>). Each explanation must contain a title and at least one section. The child element <code>&lt;resourceList&gt;</code> links an explanation to further detailed information like books, websites or links to files.</p>
+        <pre>...
+&lt;explanationList&gt;
+  &lt;explanation name="explanation1" topic="topic1"&gt;
+    &lt;title&gt;Title ...&lt;/title&gt;
+    &lt;section&gt;
+      &lt;text&gt;Text ...&lt;/text&gt;
+      &lt;text&gt;Text ...&lt;/text&gt;
+      &lt;mediaList&gt;
+	&lt;media type="image" ref="image1.png"/&gt;
+	...
+      &lt;/mediaList&gt;
+    &lt;/section&gt;
+    &lt;section&gt;...&lt;/section&gt;
+    &lt;resourceList&gt;
+      &lt;resource name="res1"/&gt;
+      &lt;resource name="res2"/&gt;
+    &lt;/resourceList&gt;
+  &lt;/explanation&gt;
+  ...
+&lt;/explanationList&gt;
+...</pre>
+        <h3><a name="topicList"></a>The element: topicList</h3>
+        <p>The optional element <code>&lt;topicList&gt;</code> specifies the topics within a KEEMI document. The KEEMI format 1.0 allows the declaration of a one level topic hierarchy. Each <code>&lt;topic&gt;</code> must contain a attribute <code>name</code> which identifies a topic in the whole KEEMI document uniquely. A topic must have a child element <code>&lt;title&gt;</code> . Other possible optional child elements are <code>&lt;text&gt;
+                </code>and <code>&lt;media&gt;</code>.</p>
+        <pre>...
+&lt;topicList&gt;
+  &lt;topic name="topic1"&gt;
+    &lt;title&gt;Title ...&lt;/title&gt;
+    &lt;text&gt;Description of the topic ...&lt;/text&gt;
+    &lt;media type="image" ref="Image1.jpg"/&gt;
+  &lt;/topic&gt;
+  ...
+&lt;/topicList&gt;
+...
+</pre>
+        <h3><a name="resourceList"></a>The element: resourceList</h3>
+        <p>Questions and Explanations can have further explanatory material / resources attached to. Such resources are specified within the element <code>&lt;resourceList&gt;</code> . &nbsp;Each <code>&lt;resource&gt;
+                </code>must contain an attribute <code>name</code> which identifies a resource in the whole KEEMI document uniquely. The attribute <code>type</code> is an required attribute too. This attribute can be one of the following values assigned to: <code>book</code>, <code>website</code>, <code>file</code> . Required child elements for a resource are <code>&lt;title&gt;</code> and <code>&lt;link&gt;</code>. The Element <code>&lt;text&gt;</code> is optional.</p>
+        <pre>...
+&lt;resourceList&gt;
+  &lt;resource name="res1" type="website"&gt;
+    &lt;title&gt;Title ...&lt;/title&gt;
+    &lt;text&gt;Further description ...&lt;/text&gt;
+    &lt;link&gt;http://www.website.org&lt;/link&gt;
+  &lt;/resource&gt;
+  ...
+&lt;/resourceList&gt;
+...</pre>
+        <h3><a name="mediaList"></a>The&nbsp;element: mediaList</h3>
+        <p>The element <code>&lt;mediaList&gt;</code> attaches further information to the media items used in a KEEMI document.&nbsp;</p>
+        <p>The <code>&lt;media&gt;</code> element itself declares a media item,&nbsp;with the required attribute <code>ref,</code> uniquely in a KEEMI document.&nbsp;The attribute <code>ref</code> contains a relative path (relative to the KEEMI document) to a media file supported by the KEEMI file format. Currently supported file formats are jpg and png for images and HTML files. Another required attribute for <code>&lt;media&gt;</code> is <code>type</code>. This attribute can have the value <code>image</code> or <code>html</code> .<strong> A HTML file referred by a media element must not contain any further references to other files and must not contain a viewport tag.</strong></p>
+        <p>Within the element <code>&lt;mediaList&gt;</code> a media item can get a <code>label</code>. The attribute&nbsp;<code>showLabelBeforeEvaluated </code>specifies when the label is shown.</p>
+        <pre>...
+&lt;mediaList&gt;
+  &lt;media type="image" ref="image1.png" label="Thats a label to image1" showLabelBeforeEvaluated="YES"/&gt;
+  &lt;media type="image" ref="image2.png" label="Thats a label to image2"/&gt;
+  ...
+&lt;/mediaList&gt;
+...
+</pre>
+        <h3>Packing a KEEMI document into a KEEMI catalog</h3>
+        <p>A KEEMI compliant application expects a KEEMI document inside a folder which itself is packed into a ZIP archive file(compatible with PKZip and InfoZip). The name of the file externsion must be&nbsp;<strong>.keemi</strong>&nbsp; or <strong>.zip</strong>.</p>
+    </body>
+</html>
